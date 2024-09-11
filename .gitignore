@@ -1,0 +1,3 @@
+mysite/static
+__pycache__/
+*.pyc
