@@ -19,6 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=True)
     def get_friends(self, request, pk=None):
+        """Endpoint returns user friends by user id"""
         user = User.objects.filter(id=pk).first()
         if user:
             friends = user.friends.all()
@@ -31,6 +32,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def get_shorter_connection(self, request):
+        """Endpoint returns the list of ids, which represents the shortest connections path
+         between two specified users"""
         start_profile_id = int(request.query_params.get("start_id"))
         end_profile_id = int(request.query_params.get("end_id"))
 

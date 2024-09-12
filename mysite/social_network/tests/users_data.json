@@ -1,0 +1,32 @@
+[
+    {
+        "model": "social_network.user",
+        "fields":
+            {
+                "img": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                "first_name": "Steph",
+                "last_name": "Walters",
+                "phone": "(820) 289-1818",
+                "address": "5190 Center Court Drive",
+                "city": "Spring",
+                "state": "TX",
+                "zipcode": "77370",
+                "available": true
+            }
+    },
+    {
+        "model": "social_network.user",
+        "fields":
+        {
+            "img": "https://randomuser.me/api/portraits/med/men/67.jpg",
+            "first_name": "Arnoldo",
+            "last_name": "Almonte",
+            "phone": "(684) 873 2299",
+            "address": "9400, Calzada Carrero",
+            "city": "San Miguel El Alto",
+            "state": "Puebla",
+            "zipcode": "97706",
+            "available": true
+        }
+    }
+]
