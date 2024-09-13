@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def get_shorter_connection(self, request):
         """Endpoint returns the list of ids, which represents the shortest connections path
-         between two specified users"""
+         between two specified users. If users are directly connected, empty list will be given"""
         start_profile_id = int(request.query_params.get("start_id"))
         end_profile_id = int(request.query_params.get("end_id"))
 
