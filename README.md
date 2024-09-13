@@ -49,8 +49,16 @@ the endpoint returns **400 Bad Reques** in the following cases:
 - if the shortest path doesn't exist (the specified users are not linked)
 
 ### Seeder script
+The script is located on path **backend_task/mysite/social_network/management/commands/executeseederscript.py**
+
 To execute the seeder script, use the following command in the docker container
 ```bash
 python manage.py executeseederscript --profilesTotal {num_1} --friendsTotal {num_2}
 ```
 For profiles generation **https://randomuser.me/** API has been used
+
+### Tests
+To run tests, use the following command in the docker container
+```bash
+python manage.py test social_network/tests/
+```
