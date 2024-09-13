@@ -1,3 +1,4 @@
+import argparse
 from django.core.management.base import BaseCommand
 import random
 from social_network.models import User, FriendList
@@ -7,18 +8,31 @@ import requests
 class Command(BaseCommand):
     help = "Execute the seeder script."
 
+    def check_positive(self, value):
+        """Check the correctness of passed value"""
+        if not value.isdigit():
+            raise argparse.ArgumentTypeError(
+                "%s is an invalid positive int value" % value
+            )
+        int_value = int(value)
+        if int_value <= 0:
+            raise argparse.ArgumentTypeError(
+                "%s is an invalid positive int value" % value
+            )
+        return int_value
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--profilesTotal",
             help="Total number of user profiles, that should be created in database",
             required=True,
-            type=int,
+            type=self.check_positive,
         )
         parser.add_argument(
             "--friendsTotal",
             help="Total number of friends connections, that should be randomly created",
             required=True,
-            type=int,
+            type=self.check_positive,
         )
 
     def handle(self, *args, **options):
@@ -33,14 +47,18 @@ class Command(BaseCommand):
         # If profilesTotal <= existed DB users, new profiles won't be created
         self.stdout.write("Checking, if additional user profiles creation is necessary")
         if profilesTotal > created_profiles_num:
-            self.stdout.write(f"{profilesTotal - created_profiles_num} additional users should be created")
+            self.stdout.write(
+                f"{profilesTotal - created_profiles_num} additional users should be created"
+            )
             self.generate_additional_users(profilesTotal - created_profiles_num)
         else:
             self.stdout.write(
                 f"User profiles creation is not necessary. Number of user profiles in DB - {created_profiles_num}"
             )
+        self.generate_friends_connections(friendsTotal)
 
-        # Random generation of friends connections
+    def generate_friends_connections(self, friendsTotal: int):
+        """Method randomly generates the specified number friends connections"""
         self.stdout.write(f"Starting to generate random friends connection")
         user_profiles = User.objects.all().order_by("id")
         result_list = []
@@ -57,7 +75,6 @@ class Command(BaseCommand):
             result_list.append(friend_connection)
         FriendList.objects.bulk_create(result_list)
         self.stdout.write(f"Friends connections created")
-
 
     def generate_additional_users(self, num: int):
         """Method generates the specified number of random users profiles,
